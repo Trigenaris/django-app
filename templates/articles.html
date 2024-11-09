@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block title %}
+  Makaleler
+{% endblock title %}
+{% load static %}
+{% load custom_filters %}
+{% block body %}
+  <h3>Makaleler</h3>
+  <hr>
+  <form class="form-inline mb-2">
+    {% csrf_token %}
+    <div class="input-group w-50">
+        <input type="search" name="keyword" id="keyword" placeholder="Makale Ara..." class="form-control">
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="submit" style="width: 100px;"><i class="fa-solid fa-magnifying-glass"></i> Ara</button>
+        </div>
+    </div>
+  </form>
+  <hr>
+  {% if articles %}
+    <div class="row">
+        {% for article in page_obj %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <a href="/blog/article/{{article.id}}">
+                        <img src="
+                        {% if article.article_img %}
+                            {{article.article_img.url}}
+                        {% else %}
+                            {% static 'images/image_news.jpg' %}
+                        {% endif %}
+                        " alt="{{article.title}}" style="width: 100%; height: 300px;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/blog/article/{{article.id}}">{{article.title}}</a></h5>
+                        <div class="card-text"><strong>Author:</strong> {{article.author.username}}</div>
+                        <div class="card-text"><strong>Date:</strong> {{article.created_date}}</div>
+                        <div class="card-text">
+                            {{article.content|truncatewords:10|strip_html}}
+                            <a href="/blog/article/{{article.id}}">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <nav>
+        <ul class="pagination pagination-lg justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.previous_page_number}}{% if keyword %}&keyword={{keyword}}{% endif %}"><span>&laquo;</span></a>
+                </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number ==  num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}{% if keyword %}&keyword={{keyword}}{% endif %}"><span>{{ num }}</span></a>
+                </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.next_page_number}}{% if keyword %}&keyword={{keyword}}{% endif %}"><span>&raquo;</span></a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+  {% else %}
+    <div class="alert alert-danger">Henuz bir makale eklenmemis</div>
+  {% endif %}
+{% endblock body %}

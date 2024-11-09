@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block title %}
+  Kontrol Panel
+{% endblock title %}
+{% block body %}
+  <h3>Kontrol Panel</h3>
+  <hr>
+  <p>Hoşgeldiniz <small>{{request.user.username}}</small></p>
+  <hr>
+  <a href="/blog/addarticle/" class="btn btn-success">Makale Ekle</a>
+  {% if articles %}
+    <table class="table table-bordered table-hover mt-3 text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Başlık</th>
+                <th>Yazar</th>
+                <th>Tarih</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+                <tr>
+                    <td>{{article.id}}</td>
+                    <td><a href="/blog/article/{{article.id}}">{{article.title}}</a></td>
+                    <td>{{article.author.username}}</td>
+                    <td>{{article.created_date}}</td>
+                    <td>
+                        <a href="/blog/update/{{article.id}}" class="btn btn-success btn-sm"><i class="fa-solid fa-pen-to-square"></i> Güncelle</a>
+                        <a href="/blog/delete/{{article.id}}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i> Sil</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-danger mt-3">Henüz makaleniz yok</div>
+  {% endif %}
+{% endblock body %}

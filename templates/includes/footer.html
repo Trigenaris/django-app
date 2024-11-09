@@ -1,0 +1,38 @@
+<footer class="bg-dark text-white py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>My Company</h5>
+                <p>{{footer_settings.description}}</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Önemli Sayfalar</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'index' %}" class="text-white">Anasayfa</a></li>
+                    <li><a href="{% url 'about' %}" class="text-white">Hakkimizda</a></li>
+                    <li><a href="{% url 'blog:articles' %}" class="text-white">Blog</a></li>
+                    <li><a href="{% url 'contact' %}" class="text-white">İletişim</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'user:profile' request.user.username %}" class="text-white">Profilim</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>İletişim</h5>
+                <p>Adres: {{footer_settings.address}}</p>
+                <p>Email: <a href="mailto:{{footer_settings.email}}">{{footer_settings.email}}</a></p>
+                <p>Telefon: 123456789</p>
+                <div>
+                    <h5>Bizi Soysyal Medyada Takip Edin</h5>
+                    <a href="{{footer_settings.instagram}}" class="text-white me-2"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="{{footer_settings.facebook}}" class="text-white me-2"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="{{footer_settings.twitter}}" class="text-white me-2"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="{{footer_settings.linkedin}}" class="text-white me-2"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <p class="mb-0">&copy; 2024 My Company. Tüm Hakları Saklıdır</p>
+        </div>
+    </div>
+</footer>
